@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DisneyChallenge.Entidades
+namespace DisneyChallenge.DTOs
 {
-    public class Pelicula
+    public class PeliculaBusquedaDTO
     {
-        public int Id { get; set; }
         public string Imagen { get; set; } //En este campo se guarda la url de la imagen.
 
         public string Titulo { get; set; }
@@ -12,9 +11,7 @@ namespace DisneyChallenge.Entidades
         [Range(1, 5)]
         public int Calificacion { get; set; }
 
-        //Propiedades de navegación.
-        public List<PeliculasPersonajes> PeliculasPersonajes { get; set; }
-        public List<PeliculasGeneros> PeliculasGeneros { get; set; }
-
+        //Propiedades de navegacion
+        public List<GeneroListadoDTO> Generos { get; set; }
     }
 }
