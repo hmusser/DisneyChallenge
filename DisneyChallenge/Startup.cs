@@ -33,6 +33,10 @@ namespace DisneyChallenge
         {
             services.AddAutoMapper(typeof(Startup));
 
+            //Servicio para el envío de correos.
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, Servicios.MailService>();
+
             //Servicio para poder alojar imagenes localmente en nuestro servidor.
             services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
             services.AddHttpContextAccessor();

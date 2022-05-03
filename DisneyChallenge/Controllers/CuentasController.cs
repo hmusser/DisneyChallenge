@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DisneyChallenge.DTOs;
 using DisneyChallenge.Servicios;
+using DisneyChallenge.Helpers;
 
 namespace DisneyChallenge.Controllers
 {
@@ -31,13 +32,15 @@ namespace DisneyChallenge.Controllers
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly IMailService mailService;
 
         public CuentasController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
             ApplicationDbContext context,
-            IMapper mapper) : base(context, mapper)
+            IMapper mapper,
+            IMailService mailService) : base(context, mapper)
 
         {
             _userManager = userManager;
@@ -45,6 +48,7 @@ namespace DisneyChallenge.Controllers
             _configuration = configuration;
             this.context = context;
             this.mapper = mapper;
+            this.mailService = mailService;
         }
 
         [HttpPost("register")]
@@ -61,7 +65,13 @@ namespace DisneyChallenge.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
-            {                
+            {
+                EnviarEmailBienvenida(
+                                        user.Email, 
+                                        "Bienvenido a Disney Challenge", 
+                                        "Gracias por registrarse en el sitio web de Disney Challenge \n No olvide su contraseña: "
+                                        + model.Password+ "\nNos vemos pronto!"
+                                        );
                 return await ConstruirToken(model);//Envio "model" que son las credenciales del usuario.
             }
             else
@@ -155,9 +165,7 @@ namespace DisneyChallenge.Controllers
             };
 
         }
-
         
-
         //Devuelve el listado de usuarios registrados
         [HttpGet("Usuarios")]
         //Notar que la politica de autorizacion me permite acceder a este endpoint sólo si mi usuario es "Admin"
@@ -205,7 +213,26 @@ namespace DisneyChallenge.Controllers
             return NoContent();
         }
 
-      
+        public async void EnviarEmailBienvenida(string to, string sub, string bod)
+        {
+            try
+            {
+                await mailService.SendEmailAsync(
+                    new MailRequest()
+                    {
+                        ToEmail = to,
+                        Subject = sub,
+                        Body = bod
+                    });       
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
 
     }
 }
