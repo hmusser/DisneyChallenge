@@ -6,7 +6,10 @@ email: musserhoracio@gmail.com
 Contraseña: hH123456$
 
 Para hacer pruebas realizar una primera migracion para que se creen las tablas en el localdb de sql de manera que se carguen también algunos datos de ejemplo.
-Queda pendiente agregar el envío de correos electronicos al usuario cuando se crea una nueva cuenta, esto quedó aun pendiente pues Sendgrid desactivó mi cuenta por usar el servicio desde un repositorio público de GitHub continúo investigando una allternativa. Tampoco se realizó algunaimplementación de pruebas unitarias sugeridas en el challenge.
+
+Queda pendiente agregar el envío de correos electronicos al usuario cuando se crea una nueva cuenta, esto quedó aun pendiente pues Sendgrid desactivó mi cuenta por usar el servicio desde un repositorio público de GitHub continúo investigando una allternativa. 
+Tampoco se realizó alguna implementación de pruebas unitarias sugeridas en el challenge.
+
 Se recomienda realizar pruebas desde Postman para probar los endpoints desarrollados.
 
 Update 03_05_2022:
